@@ -63,34 +63,37 @@ public class RaycastDetectionController : MonoBehaviour
         Debug.DrawRay(ray.origin, ray.direction * _maxDistanceDetection, Color.red, 10);
 
         bool raycasted = Physics.Raycast(ray, out RaycastHit hit, _maxDistanceDetection);
-
-        switch (GameManager.Instance.SelectionState)
+        if (raycasted)
         {
-            case Enums.SelectionState.MOVING:
+            switch (GameManager.Instance.SelectionState)
+            {
+                case Enums.SelectionState.MOVING:
 
-                if (!hit.collider.CompareTag("Element"))
-                {
-                    OnPosDetected?.Invoke(hit.point);
-                }
-                return;
-        }
-
-        switch (GameManager.Instance.Basestate)
-        {
-            case Enums.BaseState.WAITING_INPUT:
-                if (hit.collider.CompareTag("Element"))
-                {
-                    ARElement element = hit.collider.GetComponent<ARElement>();
-
-                    element.OnSelect();
-
-                    GameManager.Instance.ChangeBaseState(Enums.BaseState.SELECTION_ELEMENT);
-
+                    if (!hit.collider.CompareTag("Element"))
+                    {
+                        OnPosDetected?.Invoke(hit.point);
+                    }
                     return;
-                }
-                break;
-            case Enums.BaseState.SELECTION_ELEMENT:
-                break;
+            }
+
+            switch (GameManager.Instance.Basestate)
+            {
+                case Enums.BaseState.WAITING_INPUT:
+
+                    if (hit.collider.CompareTag("Element"))
+                    {
+                        ARElement element = hit.collider.GetComponent<ARElement>();
+
+                        element.OnSelect();
+
+                        GameManager.Instance.ChangeBaseState(Enums.BaseState.SELECTION_ELEMENT);
+
+                        return;
+                    }
+                    break;
+                case Enums.BaseState.SELECTION_ELEMENT:
+                    break;
+            }
         }
     }
 #endif
