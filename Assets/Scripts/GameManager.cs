@@ -1,10 +1,12 @@
 using Elements;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.XR.ARFoundation;
 
 public class GameManager : MonoBehaviour
 {
-    public ARElement CurrentElementSelected { get; set; }
+    public ARElement CurrentElementSelected { get => _current; set => _current = value; }
+    [SerializeField] private ARElement _current;
     public static GameManager Instance
     {
         get
@@ -27,7 +29,7 @@ public class GameManager : MonoBehaviour
 
     [Space(10)]
     [SerializeField] private RaycastDetectionController _placeElements;
-
+    [SerializeField] private ARSession _arSession;
 
     public delegate void DelegateUpdateSelection();
     public DelegateUpdateSelection OnUpdateSelection;
@@ -53,22 +55,29 @@ public class GameManager : MonoBehaviour
     {
         ChangeBaseState(Enums.BaseState.WAITING_INPUT);
         ChangeSelectionState(Enums.SelectionState.NONE);
+
+        //_arSession.Reset(); 
     }
 
     public bool EqualsBaseState(Enums.BaseState state) => state == _baseState;
     public bool EqualsSelectState(Enums.SelectionState state) => state == _selectionState;
 
-    public void ChangeSelectionStateButton(int i) 
+    public void ChangeSelectionStateButton(int i)
     {
         ChangeSelectionState((Enums.SelectionState)i);
     }
     public void ChangeBaseState(Enums.BaseState newstate)
     {
-        _baseState = newstate; 
+        _baseState = newstate;
 
         switch (newstate)
         {
             case Enums.BaseState.WAITING_INPUT:
+
+                if (CurrentElementSelected != null)
+                    CurrentElementSelected.OnDeselect();
+
+                CurrentElementSelected = null;
 
                 _placeElements.InputEnabled = true;
 
@@ -95,7 +104,8 @@ public class GameManager : MonoBehaviour
         {
             case Enums.SelectionState.MOVING:
                 _placeElements.InputEnabled = false;
-                CurrentElementSelected.Collider.enabled = true;
+                if (CurrentElementSelected != null)
+                    CurrentElementSelected.Collider.enabled = true;
                 break;
             case Enums.SelectionState.ROTATING:
                 break;
@@ -109,6 +119,7 @@ public class GameManager : MonoBehaviour
         switch (newState)
         {
             case Enums.SelectionState.MOVING:
+                if(CurrentElementSelected!=null)
                 CurrentElementSelected.Collider.enabled = false;
                 _placeElements.InputEnabled = true;
                 //Debug.Log(_placeElements.InputEnabled +"moving...");
@@ -118,9 +129,14 @@ public class GameManager : MonoBehaviour
             case Enums.SelectionState.SCALING:
                 break;
             case Enums.SelectionState.DELETING:
-                DestroyElement();
+
+                if (CurrentElementSelected != null)
+                    Destroy(CurrentElementSelected.gameObject);
+
+                ResetStates();
                 break;
             case Enums.SelectionState.NONE:
+                 
                 break;
         }
 
@@ -132,11 +148,10 @@ public class GameManager : MonoBehaviour
         _selectionState = newState;
     }
 
-    private void DestroyElement()
+    public void ResetStates()
     {
         ChangeBaseState(Enums.BaseState.WAITING_INPUT);
         ChangeSelectionState(Enums.SelectionState.NONE);
-
-        Destroy(CurrentElementSelected.gameObject); 
     }
+
 }

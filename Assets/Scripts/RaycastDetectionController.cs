@@ -64,6 +64,7 @@ public class RaycastDetectionController : MonoBehaviour
         //Debug.DrawRay(ray.origin, ray.direction * _maxDistanceDetection, Color.red, 10);
 
         bool raycasted = Physics.Raycast(ray, out RaycastHit hit, _maxDistanceDetection);
+
         if (raycasted)
         {
             switch (GameManager.Instance.SelectionState)

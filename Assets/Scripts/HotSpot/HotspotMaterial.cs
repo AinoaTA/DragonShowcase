@@ -7,6 +7,7 @@ namespace Hotspots
     public class HotspotMaterial : HotspotAction
     {
         [SerializeField] private Material[] _material;
+        [SerializeField] private int _indexMaterial = 0;
         private SkinnedMeshRenderer _mesh;
 
         private int _index = 0;
@@ -40,7 +41,7 @@ namespace Hotspots
             List<Material> m = new();
             _mesh.GetMaterials(m);
 
-            m[^1] = _material[_index % _material.Length];
+            m[_indexMaterial] = _material[_index % _material.Length];
             _mesh.SetMaterials(m);
         }
 

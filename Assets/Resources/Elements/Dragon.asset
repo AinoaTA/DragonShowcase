@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78af97596f7031b4d9e24c622d624687, type: 3}
   m_Name: Dragon
   m_EditorClassIdentifier: 
-  _name: Dragon
+  _name: Arsha
   _prefab: {fileID: 4550248038665061646, guid: 9d6fff6df9d6f6b4683ca6560ed14013, type: 3}
-  _sp: {fileID: 21300000, guid: b8f5f2b284003084a818cbe7724fe446, type: 3}
+  _sp: {fileID: 21300000, guid: 8aa7e713f5b928744b56a4f5a376b350, type: 3}
