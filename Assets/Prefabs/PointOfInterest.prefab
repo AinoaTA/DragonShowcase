@@ -592,7 +592,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5777667454576310422}
   - component: {fileID: 8853020663182644968}
-  - component: {fileID: 2946340731854335452}
   m_Layer: 5
   m_Name: PointOfInterest
   m_TagString: Untagged
@@ -610,8 +609,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -7, y: 0, z: 27.5}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 7483244207355163194}
   - {fileID: 6580070147152741659}
@@ -640,27 +639,6 @@ MonoBehaviour:
   _showBox: {fileID: 6335109743648981565}
   _minDistanceToShow: 5
   _text: {fileID: 3707238957294518899}
---- !u!135 &2946340731854335452
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7317072073414046587}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7727508226209973476
 GameObject:
   m_ObjectHideFlags: 0

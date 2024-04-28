@@ -94,22 +94,26 @@ namespace Elements
         {
             if (_pressed)
             {
-                //if (Input.touchCount == 2) 
-                //{
-                //    var t1 = Input.touches[0];
-                //    var t2 = Input.touches[1];
+                float dirY = (Input.mousePosition.y - _firstPoint.y) * Time.deltaTime;
+ 
+                dirY = Mathf.Clamp(dirY, -0.05f, 0.05f);
 
-                //    var newDistance = Vector2.Distance(t1.position, t2.position);
+                Vector3 scaleEnd;
 
-                //    if (_prevDistance < newDistance) 
-                //    {
+                scaleEnd = transform.localScale;
+                 
+                scaleEnd += Vector3.one * dirY;
 
-                //    }
+                var v = Mathf.Clamp(scaleEnd.x, 0.5f, 2.0f);
 
-                //}OnUpdate
+                scaleEnd = Vector3.one * v;
+
+                transform.localScale = scaleEnd; 
+                 
                 OnUpdate?.Invoke();
             }
         }
+
 
         public void Rotate()
         {
