@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 908ff6b11ef16a14f85bf9082f5688d4, type: 3}
-  m_Name: POI_Animtor
+  m_Name: POI_Animator
   m_EditorClassIdentifier: 
   _text: Touch to show Attack animation!
   _specificAnimToPlay: Attack

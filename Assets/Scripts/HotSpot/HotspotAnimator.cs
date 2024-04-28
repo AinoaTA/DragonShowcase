@@ -1,9 +1,9 @@
 
 using UnityEngine;
-namespace HotPot
+namespace Hotspots
 {
-    [CreateAssetMenu(fileName = "POI_Animtor", menuName = "POI/Animator")]
-    public class HotpotAnimator : HotPotAction
+    [CreateAssetMenu(fileName = "POI_Animator", menuName = "POI/Animator")]
+    public class HotpotAnimator : HotspotAction
     {
         private Animator _animator;
         [SerializeField] private string _specificAnimToPlay;

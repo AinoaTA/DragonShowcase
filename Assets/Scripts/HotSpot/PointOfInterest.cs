@@ -1,12 +1,12 @@
 using UnityEngine;
 
-namespace HotPot
+namespace Hotspots
 {
     public class PointOfInterest : MonoBehaviour
     {
         [SerializeField] private Transform _triggerElement;
         [SerializeField] private Transform _target;
-        [SerializeField] private HotPotAction _pointer;
+        [SerializeField] private HotspotAction _pointer;
 
 
         [Header("Shower Box")]
@@ -16,11 +16,13 @@ namespace HotPot
         private void OnEnable()
         {
             DetectMove.OnMove += CanShow;
+            Elements.ARElement.OnUpdate += CanShow;
         }
 
         private void OnDisable()
         {
-            DetectMove.OnMove += CanShow;
+            DetectMove.OnMove -= CanShow;
+            Elements.ARElement.OnUpdate -= CanShow;
         }
 
         private void Awake()
@@ -30,6 +32,8 @@ namespace HotPot
 
         private void Start()
         {
+            if (_triggerElement == null)
+                _triggerElement = Camera.main.transform;
             //we want a copy for avoid modifing a generic so! 
             _pointer = Instantiate(_pointer);
 
@@ -44,12 +48,12 @@ namespace HotPot
             StartPointer();
         }
 
-        private void CanShow(Vector3 pos)
+        private void CanShow( )
         {
-            Debug.Log("checkin? : " + pos);
+            //Debug.Log("checkin? : " + pos);
 
-            Debug.Log(Vector3.Distance(transform.position, pos));
-            if (Vector3.Distance(transform.position, pos) < _minDistanceToShow)
+            //Debug.Log(Vector3.Distance(transform.position, pos));
+            if (Vector3.Distance(transform.position, _triggerElement.position) < _minDistanceToShow)
             {
                 Show(true);
 

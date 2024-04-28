@@ -14,6 +14,9 @@ namespace Elements
         public Collider Collider => _col;
         private Collider _col;
 
+        public delegate void DelegateRequiresUpdate();
+        public static DelegateRequiresUpdate OnUpdate;
+
         private void OnEnable()
         {
             RaycastDetectionController.OnPosDetected += Move;
@@ -70,7 +73,7 @@ namespace Elements
         private void OnMouseUp()
         {
             _pressed = false;
-        } 
+        }
 
         private void Update()
         {
@@ -100,10 +103,11 @@ namespace Elements
 
                 //    if (_prevDistance < newDistance) 
                 //    {
-                    
+
                 //    }
 
-                //}
+                //}OnUpdate
+                OnUpdate?.Invoke();
             }
         }
 
@@ -112,7 +116,12 @@ namespace Elements
             if (_pressed)
             {
                 float dirX = (Input.mousePosition.x - _firstPoint.x) * Time.deltaTime;
+
+                dirX = Mathf.Clamp(dirX, -1, 1);
+
                 transform.Rotate(Vector3.up, -dirX);
+
+                OnUpdate?.Invoke();
             }
         }
     }

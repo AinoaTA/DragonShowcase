@@ -4,7 +4,7 @@ public class DetectMove : MonoBehaviour
 {
     private Vector3 _position;
 
-    public delegate void DelegateOnMoveUpdate(Vector3 pos);
+    public delegate void DelegateOnMoveUpdate();
     public static DelegateOnMoveUpdate OnMove;
     private void Start()
     {
@@ -16,7 +16,7 @@ public class DetectMove : MonoBehaviour
         if (_position != transform.position) 
         {
             _position = transform.position;
-            OnMove?.Invoke(transform.position);
+            OnMove?.Invoke();
         }
     }
 }

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2605579332874776284}
   - component: {fileID: 3524425445919101336}
   - component: {fileID: 8508451445565831378}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -120,7 +120,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3524425445919101336}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8853020663182644968}
+        m_TargetAssemblyTypeName: HotPot.PointOfInterest, Assembly-CSharp
+        m_MethodName: StartPointer
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3953068604695197125
 GameObject:
   m_ObjectHideFlags: 0
@@ -132,7 +144,7 @@ GameObject:
   - component: {fileID: 4599636341809232678}
   - component: {fileID: 6879696360014521428}
   - component: {fileID: 3707238957294518899}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -266,7 +278,7 @@ GameObject:
   - component: {fileID: 1793182455881724226}
   - component: {fileID: 6026846615869484818}
   - component: {fileID: 5443439177854735301}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -344,7 +356,7 @@ GameObject:
   - component: {fileID: 1118983565153896440}
   - component: {fileID: 616397204226891934}
   - component: {fileID: 8837055721706725296}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -358,14 +370,14 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6335109743648981565}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1793182455881724226}
   m_Father: {fileID: 5777667454576310422}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 1.631}
@@ -445,7 +457,7 @@ GameObject:
   - component: {fileID: 5777667454576310422}
   - component: {fileID: 8853020663182644968}
   - component: {fileID: 2946340731854335452}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: PointOfInterest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -519,7 +531,7 @@ GameObject:
   - component: {fileID: 8095554193046356948}
   - component: {fileID: 556159230519634793}
   - component: {fileID: 2643713581123846495}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -653,7 +665,7 @@ GameObject:
   - component: {fileID: 6580070147152741659}
   - component: {fileID: 2333130325645586079}
   - component: {fileID: 2386349572976395438}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}

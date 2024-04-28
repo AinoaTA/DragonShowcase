@@ -162,6 +162,7 @@ PlayerSettings:
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
     Android: com.AinoaTADev.DragonShowcase
+    Standalone: com.AinoaTADev.Dragon-Showcase
     iPhone: com.AinoaTADev.Dragon-Showcase
   buildNumber:
     Standalone: 0

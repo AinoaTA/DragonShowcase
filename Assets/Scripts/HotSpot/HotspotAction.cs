@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace HotPot
+namespace Hotspots
 {
-    public class HotPotAction : ScriptableObject
+    public class HotspotAction : ScriptableObject
     {
         public string TextDescription => _text;
         [TextArea]

@@ -54,13 +54,14 @@ public class RaycastDetectionController : MonoBehaviour
     }
 
     //for test in unity editor without AR foundation.
-#if UNITY_EDITOR
+#if UNITY_EDITOR 
     public void FingerDown()
     {
         if (!InputEnabled) return;
-
+        Debug.Log("This ray is from Unity Editor");
         Ray ray = _cam.ScreenPointToRay(Mouse.current.position.ReadValue());
-        Debug.DrawRay(ray.origin, ray.direction * _maxDistanceDetection, Color.red, 10);
+        //Debug.Log(ray);
+        //Debug.DrawRay(ray.origin, ray.direction * _maxDistanceDetection, Color.red, 10);
 
         bool raycasted = Physics.Raycast(ray, out RaycastHit hit, _maxDistanceDetection);
         if (raycasted)
@@ -98,10 +99,12 @@ public class RaycastDetectionController : MonoBehaviour
     }
 #endif
 
-#if !UNITY_EDITOR
+#if  !UNITY_EDITOR
     public void FingerDown(Finger obj)
     {
         if (!InputEnabled) return;
+        Debug.Log("raying.. from ar foundation");
+
         if (obj.index != 0) return;
 
         //Ray ray = _cam.ScreenPointToRay(Mouse.current.position.ReadValue());
@@ -167,6 +170,13 @@ public class RaycastDetectionController : MonoBehaviour
     //    }
     //}
 
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0)) 
+        { 
+            FingerDown();
+        }
+    }
 }
 
 

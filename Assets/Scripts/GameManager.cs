@@ -111,6 +111,7 @@ public class GameManager : MonoBehaviour
             case Enums.SelectionState.MOVING:
                 CurrentElementSelected.Collider.enabled = false;
                 _placeElements.InputEnabled = true;
+                //Debug.Log(_placeElements.InputEnabled +"moving...");
                 break;
             case Enums.SelectionState.ROTATING:
                 break;
