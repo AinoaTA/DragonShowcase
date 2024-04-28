@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace Hotspots
 {
+    [CreateAssetMenu(fileName = "POI_Text", menuName = "POI/Basic")]
     public class HotspotAction : ScriptableObject
     {
         public string TextDescription => _text;
