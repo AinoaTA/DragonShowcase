@@ -1,0 +1,34 @@
+{
+    "name": "InputTestEditor",
+    "maps": [
+        {
+            "name": "Unity",
+            "id": "a51439c1-c38c-4b34-a235-d9f4e555829a",
+            "actions": [
+                {
+                    "name": "Click",
+                    "type": "Button",
+                    "id": "c286ac99-4586-4a7b-bc05-40fdea7def16",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "b031ae8f-57ba-4f47-ba7b-e93ae8e28ecd",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "Tap",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
