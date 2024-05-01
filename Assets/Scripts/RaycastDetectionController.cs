@@ -54,53 +54,53 @@ public class RaycastDetectionController : MonoBehaviour
     }
 
     //for test in unity editor without AR foundation.
-#if UNITY_EDITOR 
-    public void FingerDown()
-    {
-        if (!InputEnabled) return;
-        Debug.Log("This ray is from Unity Editor");
-        Ray ray = _cam.ScreenPointToRay(Mouse.current.position.ReadValue());
-        //Debug.Log(ray);
-        //Debug.DrawRay(ray.origin, ray.direction * _maxDistanceDetection, Color.red, 10);
+    //#if UNITY_EDITOR 
+    //    public void FingerDown()
+    //    {
+    //        if (!InputEnabled) return;
+    //        Debug.Log("This ray is from Unity Editor");
+    //        Ray ray = _cam.ScreenPointToRay(Mouse.current.position.ReadValue());
+    //        //Debug.Log(ray);
+    //        //Debug.DrawRay(ray.origin, ray.direction * _maxDistanceDetection, Color.red, 10);
 
-        bool raycasted = Physics.Raycast(ray, out RaycastHit hit, _maxDistanceDetection);
+//        bool raycasted = Physics.Raycast(ray, out RaycastHit hit, _maxDistanceDetection);
 
-        if (raycasted)
-        {
-            switch (GameManager.Instance.SelectionState)
-            {
-                case Enums.SelectionState.MOVING:
+//        if (raycasted)
+//        {
+//            switch (GameManager.Instance.SelectionState)
+//            {
+//                case Enums.SelectionState.MOVING:
 
-                    if (!hit.collider.CompareTag("Element"))
-                    {
-                        OnPosDetected?.Invoke(hit.point);
-                    }
-                    return;
-            }
+//                    if (!hit.collider.CompareTag("Element"))
+//                    {
+//                        OnPosDetected?.Invoke(hit.point);
+//                    }
+//                    return;
+//            }
 
-            switch (GameManager.Instance.Basestate)
-            {
-                case Enums.BaseState.WAITING_INPUT:
+//            switch (GameManager.Instance.Basestate)
+//            {
+//                case Enums.BaseState.WAITING_INPUT:
 
-                    if (hit.collider.CompareTag("Element"))
-                    {
-                        ARElement element = hit.collider.GetComponent<ARElement>();
+//                    if (hit.collider.CompareTag("Element"))
+//                    {
+//                        ARElement element = hit.collider.GetComponent<ARElement>();
 
-                        element.OnSelect();
+//                        element.OnSelect();
 
-                        GameManager.Instance.ChangeBaseState(Enums.BaseState.SELECTION_ELEMENT);
+//                        GameManager.Instance.ChangeBaseState(Enums.BaseState.SELECTION_ELEMENT);
 
-                        return;
-                    }
-                    break;
-                case Enums.BaseState.SELECTION_ELEMENT:
-                    break;
-            }
-        }
-    }
-#endif
+//                        return;
+//                    }
+//                    break;
+//                case Enums.BaseState.SELECTION_ELEMENT:
+//                    break;
+//            }
+//        }
+//    }
+//#endif
 
-#if  !UNITY_EDITOR
+#if !UNITY_EDITOR
     public void FingerDown(Finger obj)
     {
         if (!InputEnabled) return;
@@ -154,30 +154,32 @@ public class RaycastDetectionController : MonoBehaviour
 
     }
 #endif
-    //private void FingerDown(Finger obj)
-    //{        
-    //    if (!InputEnabled) return;
+//private void FingerDown(Finger obj)
+//{        
+//    if (!InputEnabled) return;
 
-    //    if (obj.index != 0) return;
+//    if (obj.index != 0) return;
 
-    //    if (_ARManager.Raycast(obj.currentTouch.screenPosition, _hits, TrackableType.PlaneWithinPolygon))
-    //    {
-    //        foreach (ARRaycastHit hit in _hits)
-    //        {
-    //            Pose pose = hit.pose;
-    //            Elements.ARElement element = Instantiate(_elementToPlace, pose.position, pose.rotation);
-    //            element.Init();
-    //        }
-    //    }
-    //}
+//    if (_ARManager.Raycast(obj.currentTouch.screenPosition, _hits, TrackableType.PlaneWithinPolygon))
+//    {
+//        foreach (ARRaycastHit hit in _hits)
+//        {
+//            Pose pose = hit.pose;
+//            Elements.ARElement element = Instantiate(_elementToPlace, pose.position, pose.rotation);
+//            element.Init();
+//        }
+//    }
+//}
 
+#if UNITY_EDITOR
     private void Update()
     {
         if (Input.GetMouseButtonDown(0)) 
         { 
-            FingerDown();
+            //FingerDown();
         }
     }
+#endif
 }
 
 
