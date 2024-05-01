@@ -143,7 +143,7 @@ namespace Elements
             }
         }
 
-        //onmousedown didn't work.
+        //onmousedown didn't work. Replaced it by inputs handler 
         public void OnPointerClick(PointerEventData eventData)
         {
             //if (!_enableInteraction) return;
