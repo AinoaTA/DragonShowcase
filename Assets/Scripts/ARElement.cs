@@ -1,8 +1,9 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Elements
 {
-    public class ARElement : MonoBehaviour, IDelete, IMove, IScale, IRotate
+    public class ARElement : MonoBehaviour, IDelete, IMove, IScale, IRotate, IPointerClickHandler, IPointerUpHandler
     {
         public OptionsListener Listener => _listener;
         private OptionsListener _listener = new();
@@ -27,10 +28,14 @@ namespace Elements
             RaycastDetectionController.OnPosDetected -= Move;
         }
 
+        private void Awake()
+        {
+            AddListener();
+        }
         private void Start()
         {
-            TryGetComponent(out _col);
-            AddListener();
+            if (_col == null)
+                TryGetComponent(out _col);
         }
 
         public void Move(Vector3 pos)
@@ -49,10 +54,16 @@ namespace Elements
         {
             _listener.AddDelete(this);
             _listener.AddMove(this);
+            _listener.AddRotate(this);
+            _listener.AddScale(this);
         }
 
         public void OnSelect()
         {
+            if (_col == null)
+                TryGetComponent(out _col);
+
+            GameManager.Instance.ChangeBaseState(Enums.BaseState.SELECTION_ELEMENT);
             GameManager.Instance.CurrentElementSelected = this;
             _enableInteraction = true;
         }
@@ -60,20 +71,23 @@ namespace Elements
         public void OnDeselect()
         {
             _enableInteraction = false;
+            _col.enabled = true;
         }
 
-        private void OnMouseDown()
-        {
-            if (!_enableInteraction) return;
+        //private void OnMouseDown()
+        //{
+        //    ////if (!_enableInteraction) return;
 
-            _pressed = true;
-            _firstPoint = Input.mousePosition;
-        }
+        //    //OnSelect();
 
-        private void OnMouseUp()
-        {
-            _pressed = false;
-        }
+        //    //_pressed = true;
+        //    //_firstPoint = Input.mousePosition;
+        //}
+
+        //private void OnMouseUp()
+        //{
+        //    _pressed = false;
+        //}
 
         private void Update()
         {
@@ -95,21 +109,21 @@ namespace Elements
             if (_pressed)
             {
                 float dirY = (Input.mousePosition.y - _firstPoint.y) * Time.deltaTime;
- 
+
                 dirY = Mathf.Clamp(dirY, -0.05f, 0.05f);
 
                 Vector3 scaleEnd;
 
                 scaleEnd = transform.localScale;
-                 
+
                 scaleEnd += Vector3.one * dirY;
 
                 var v = Mathf.Clamp(scaleEnd.x, 0.5f, 2.0f);
 
                 scaleEnd = Vector3.one * v;
 
-                transform.localScale = scaleEnd; 
-                 
+                transform.localScale = scaleEnd;
+
                 OnUpdate?.Invoke();
             }
         }
@@ -127,6 +141,20 @@ namespace Elements
 
                 OnUpdate?.Invoke();
             }
+        }
+
+        //onmousedown didn't work.
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            //if (!_enableInteraction) return;
+            OnSelect(); 
+            _pressed = true;
+            _firstPoint = Input.mousePosition;
+        }
+
+        public void OnPointerUp(PointerEventData eventData)
+        {
+            _pressed = false;
         }
     }
 }

@@ -7,7 +7,7 @@ namespace Menu
     {
         public void LoadGame() 
         {
-            SceneManager.LoadSceneAsync("Game");
+            SceneManager.LoadSceneAsync("Game AR");
         }
     }
 }

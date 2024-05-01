@@ -16,18 +16,25 @@ public class OptionsSystem : Menus
 
     private void OnDisable()
     {
-        if(GameManager.Instance!= null)
-        GameManager.Instance.OnUpdateSelection -= Init;
+        if (GameManager.Instance != null)
+            GameManager.Instance.OnUpdateSelection -= Init;
     }
 
-    public void Init() 
+    public void Init()
     {
         OptionsListener l = GameManager.Instance.CurrentElementSelected.Listener;
 
+        Debug.Log(l.CanMove);
+        Debug.Log(l.CanBeRotated);
+        Debug.Log(l.CanBeScaled);
+        Debug.Log(l.CanBeDeleted);
+
         _delete.SetActive(l.CanBeDeleted);
-        _move.SetActive(!l.CanMove);
+        _move.SetActive(l.CanMove);
+        _scale.SetActive(l.CanBeScaled);
+        _rotate.SetActive(l.CanBeRotated);
     }
-     
+
     public override void Init(HudController h)
     {
         _hudController = h;

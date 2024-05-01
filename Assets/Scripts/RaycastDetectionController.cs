@@ -3,8 +3,6 @@ using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 using UnityEngine.InputSystem.EnhancedTouch;
-using UnityEngine.InputSystem;
-using Elements;
 
 /// <summary>
 /// Script edited from https://www.youtube.com/watch?v=lYDfV-GaKQA
@@ -12,15 +10,10 @@ using Elements;
 [RequireComponent(typeof(ARRaycastManager), typeof(ARPlaneManager))]
 public class RaycastDetectionController : MonoBehaviour
 {
-
     [SerializeField] private float _maxDistanceDetection = 120;
     private ARRaycastManager _ARManager;
-    private ARPlaneManager _ARPlaneManager;
     private List<ARRaycastHit> _hits = new();
 
-    private Elements.ARElement _elementToPlace;
-
-    private Camera _cam;
     public bool InputEnabled { get => _inputEnabled; set => _inputEnabled = value; }
 
     [SerializeField] private bool _inputEnabled;
@@ -31,9 +24,6 @@ public class RaycastDetectionController : MonoBehaviour
     void Start()
     {
         TryGetComponent(out _ARManager);
-        TryGetComponent(out _ARPlaneManager);
-
-        _cam = Camera.main;
     }
 
     private void OnEnable()
@@ -41,16 +31,16 @@ public class RaycastDetectionController : MonoBehaviour
         TouchSimulation.Enable();
         EnhancedTouchSupport.Enable();
 
-#if !UNITY_EDITOR
+        //#if !UNITY_EDITOR
         UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerDown += FingerDown;
-#endif
+        //#endif
     }
 
     private void OnDisable()
     {
-#if !UNITY_EDITOR
+        //#if !UNITY_EDITOR
         UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerDown -= FingerDown;
-#endif
+        //#endif
     }
 
     //for test in unity editor without AR foundation.
@@ -63,55 +53,53 @@ public class RaycastDetectionController : MonoBehaviour
     //        //Debug.Log(ray);
     //        //Debug.DrawRay(ray.origin, ray.direction * _maxDistanceDetection, Color.red, 10);
 
-//        bool raycasted = Physics.Raycast(ray, out RaycastHit hit, _maxDistanceDetection);
+    //        bool raycasted = Physics.Raycast(ray, out RaycastHit hit, _maxDistanceDetection);
 
-//        if (raycasted)
-//        {
-//            switch (GameManager.Instance.SelectionState)
-//            {
-//                case Enums.SelectionState.MOVING:
+    //        if (raycasted)
+    //        {
+    //            switch (GameManager.Instance.SelectionState)
+    //            {
+    //                case Enums.SelectionState.MOVING:
 
-//                    if (!hit.collider.CompareTag("Element"))
-//                    {
-//                        OnPosDetected?.Invoke(hit.point);
-//                    }
-//                    return;
-//            }
+    //                    if (!hit.collider.CompareTag("Element"))
+    //                    {
+    //                        OnPosDetected?.Invoke(hit.point);
+    //                    }
+    //                    return;
+    //            }
 
-//            switch (GameManager.Instance.Basestate)
-//            {
-//                case Enums.BaseState.WAITING_INPUT:
+    //            switch (GameManager.Instance.Basestate)
+    //            {
+    //                case Enums.BaseState.WAITING_INPUT:
 
-//                    if (hit.collider.CompareTag("Element"))
-//                    {
-//                        ARElement element = hit.collider.GetComponent<ARElement>();
+    //                    if (hit.collider.CompareTag("Element"))
+    //                    {
+    //                        ARElement element = hit.collider.GetComponent<ARElement>();
 
-//                        element.OnSelect();
+    //                        element.OnSelect();
 
-//                        GameManager.Instance.ChangeBaseState(Enums.BaseState.SELECTION_ELEMENT);
+    //                        GameManager.Instance.ChangeBaseState(Enums.BaseState.SELECTION_ELEMENT);
 
-//                        return;
-//                    }
-//                    break;
-//                case Enums.BaseState.SELECTION_ELEMENT:
-//                    break;
-//            }
-//        }
-//    }
-//#endif
+    //                        return;
+    //                    }
+    //                    break;
+    //                case Enums.BaseState.SELECTION_ELEMENT:
+    //                    break;
+    //            }
+    //        }
+    //    }
+    //#endif
 
-#if !UNITY_EDITOR
+    //#if !UNITY_EDITOR
     public void FingerDown(Finger obj)
     {
         if (!InputEnabled) return;
-        Debug.Log("raying.. from ar foundation");
-
+        //Debug.Log("raying.. from ar foundation");
         if (obj.index != 0) return;
 
-        //Ray ray = _cam.ScreenPointToRay(Mouse.current.position.ReadValue());
-        //Debug.DrawRay(ray.origin, ray.direction * _maxDistanceDetection, Color.red, 10);
+        //another for detect area plane AR
+        _ARManager.Raycast(obj.currentTouch.screenPosition, _hits, TrackableType.PlaneWithinPolygon);
 
-        bool raycasted = _ARManager.Raycast(obj.currentTouch.screenPosition, _hits, TrackableType.PlaneWithinPolygon);
 
         switch (GameManager.Instance.SelectionState)
         {
@@ -119,67 +107,45 @@ public class RaycastDetectionController : MonoBehaviour
 
                 foreach (ARRaycastHit hit in _hits)
                 {
+                    //DebuggerText.SendDebugg($"hit :{hit}");
                     if (!hit.trackable.CompareTag("Element"))
                     {
                         Pose pose = hit.pose;
                         OnPosDetected?.Invoke(pose.position);
-                        Debug.Log("Hit while moving");
+                        //Debug.Log("Hit while moving");
                     }
                 }
                 return;
         }
 
-        switch (GameManager.Instance.Basestate)
-        {
-            case Enums.BaseState.WAITING_INPUT:
-
-                foreach (ARRaycastHit hit in _hits)
-                {
-                    if (hit.trackable.CompareTag("Element"))
-                    {
-                        ARElement element = hit.trackable.GetComponent<ARElement>();
-
-                        element.OnSelect();
-
-                        GameManager.Instance.ChangeBaseState(Enums.BaseState.SELECTION_ELEMENT);
-
-                        Debug.Log("Hit element while waiting input");
-                        return;
-                    }
-                }
-                break;
-            case Enums.BaseState.SELECTION_ELEMENT:
-                break;
-        }
-
     }
-#endif
-//private void FingerDown(Finger obj)
-//{        
-//    if (!InputEnabled) return;
+    //#endif
+    //private void FingerDown(Finger obj)
+    //{        
+    //    if (!InputEnabled) return;
 
-//    if (obj.index != 0) return;
+    //    if (obj.index != 0) return;
 
-//    if (_ARManager.Raycast(obj.currentTouch.screenPosition, _hits, TrackableType.PlaneWithinPolygon))
-//    {
-//        foreach (ARRaycastHit hit in _hits)
-//        {
-//            Pose pose = hit.pose;
-//            Elements.ARElement element = Instantiate(_elementToPlace, pose.position, pose.rotation);
-//            element.Init();
-//        }
-//    }
-//}
+    //    if (_ARManager.Raycast(obj.currentTouch.screenPosition, _hits, TrackableType.PlaneWithinPolygon))
+    //    {
+    //        foreach (ARRaycastHit hit in _hits)
+    //        {
+    //            Pose pose = hit.pose;
+    //            Elements.ARElement element = Instantiate(_elementToPlace, pose.position, pose.rotation);
+    //            element.Init();
+    //        }
+    //    }
+    //}
 
-#if UNITY_EDITOR
-    private void Update()
-    {
-        if (Input.GetMouseButtonDown(0)) 
-        { 
-            //FingerDown();
-        }
-    }
-#endif
+    //#if UNITY_EDITOR
+    //    private void Update()
+    //    {
+    //        if (Input.GetMouseButtonDown(0)) 
+    //        { 
+    //            //FingerDown();
+    //        }
+    //    }
+    //#endif
 }
 
 
